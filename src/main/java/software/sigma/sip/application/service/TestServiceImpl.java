@@ -12,13 +12,12 @@ import java.util.List;
 public class TestServiceImpl implements TestService {
 
     private final TestRepository testRepository;
-    private final TestDto testDto;
 
     @Override
     public List<TestDto> findAll() {
         return testRepository.findAll()
                 .stream()
-                .map(testDto::toTestDto)
+                .map(TestDto::toTestDto)
                 .toList();
     }
 }

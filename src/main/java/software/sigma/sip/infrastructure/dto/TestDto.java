@@ -10,7 +10,7 @@ public class TestDto {
     Long id;
     String testField;
 
-    public TestDto toTestDto(Test test) {
+    public static TestDto toTestDto(Test test) {
         return TestDto.builder()
                 .id(test.getId())
                 .testField(test.getTestField())
