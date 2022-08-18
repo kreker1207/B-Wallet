@@ -8,9 +8,12 @@ import software.sigma.sip.domain.entity.Wallet;
 @Data
 @Builder
 public class WalletDto {
-
-    private Long id, ownerId;
-    private String name, currency, amount, createdAt;
+    Long id;
+    Long ownerId;
+    String name;
+    String currency;
+    String amount;
+    String createdAt;
 
     public static WalletDto toWalletDto(Wallet wallet) {
         return WalletDto.builder()

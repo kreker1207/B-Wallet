@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import software.sigma.sip.domain.entity.Wallet;
 
 @Repository
-public interface WalletRepository  extends JpaRepository<Wallet, Long> {
+public interface WalletRepository extends JpaRepository<Wallet, Long> {
 }

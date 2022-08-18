@@ -1,27 +1,35 @@
 package software.sigma.sip.domain.entity;
 
-import lombok.*;
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @Entity
 @Builder
 @AllArgsConstructor
-@Table(name = "wallets")
-
+@NoArgsConstructor
+@Table(name = "wallet")
 public class Wallet {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "owner_id")
     private Long ownerId;
-
     @Column(name = "name")
     private String name;
     @Column(name = "currency")
