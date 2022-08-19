@@ -45,14 +45,14 @@ public class WalletService {
 
     private Wallet builderHelper(Wallet wallet, Long id) {
         Wallet oldWallet = getWallet(id);
-        return
-                walletRepository.save(Wallet.builder()
-                        .id(id)
-                        .name(Objects.isNull(wallet.getName()) ? oldWallet.getName() : wallet.getName())
-                        .currency(Objects.isNull(wallet.getCurrency()) ? oldWallet.getCurrency() : wallet.getCurrency())
-                        .amount(Objects.isNull(wallet.getAmount()) ? oldWallet.getAmount() : wallet.getAmount())
-                        .createdAt(Objects.isNull(wallet.getCreatedAt()) ? oldWallet.getCreatedAt() : wallet.getCreatedAt())
-                        .build());
+        return Wallet.builder()
+                .id(id)
+                .ownerId(Objects.isNull(wallet.getOwnerId()) ? oldWallet.getOwnerId() : wallet.getOwnerId())
+                .name(Objects.isNull(wallet.getName()) ? oldWallet.getName() : wallet.getName())
+                .currency(Objects.isNull(wallet.getCurrency()) ? oldWallet.getCurrency() : wallet.getCurrency())
+                .amount(Objects.isNull(wallet.getAmount()) ? oldWallet.getAmount() : wallet.getAmount())
+                .createdAt(Objects.isNull(wallet.getCreatedAt()) ? oldWallet.getCreatedAt() : wallet.getCreatedAt())
+                .build();
 
     }
 }

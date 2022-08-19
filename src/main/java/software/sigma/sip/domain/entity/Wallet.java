@@ -1,5 +1,6 @@
 package software.sigma.sip.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +27,7 @@ import javax.persistence.Table;
 public class Wallet {
     @Id
     @Column(name = "id")
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "owner_id")

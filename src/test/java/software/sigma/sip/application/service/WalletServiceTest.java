@@ -9,15 +9,16 @@ import software.sigma.sip.domain.repository.WalletRepository;
 
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 
 public class WalletServiceTest {
+
     private static WalletRepository walletRepository;
     private static WalletService walletService;
 
     @BeforeAll
-    public static void setup(){
+    public static void setup() {
         walletRepository = Mockito.mock(WalletRepository.class);
         walletService = new WalletService(walletRepository);
     }
@@ -35,11 +36,11 @@ public class WalletServiceTest {
     @Test
     void getWallet_success() {
         Long id = 1L;
-        Wallet expectedWallet = new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08");
+        Wallet source = new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08");
         Mockito.when(walletRepository.findById(1L))
-                .thenReturn(Optional.of(expectedWallet));
+                .thenReturn(Optional.of(source));
         Wallet actualWallet = walletService.getWallet(id);
-        assertThat(actualWallet, equalTo(expectedWallet));
+        assertThat(actualWallet).isEqualTo(source);
     }
 
     @Test
@@ -68,22 +69,24 @@ public class WalletServiceTest {
         String expectedMessage = "Wallet was not found by id";
         String actualMessage = Assertions.assertThrows(RuntimeException.class, () ->
                 walletService.deleteWallet(id)).getMessage();
-        assertThat(expectedMessage, equalTo(actualMessage));
+        assertThat(expectedMessage).isEqualTo(actualMessage);
     }
 
     @Test
     void updateWallet_success() {
         Wallet sourceWallet = new Wallet(1L, 2L, "Ivan", "USD", "200.00", "17.08");
+        Wallet expected = new Wallet(1L, 2L, "Ivan", "USD", "200.00", "17.08");
         Long id = 1L;
 
         Mockito.when(walletRepository.existsById(1L))
                 .thenReturn(true);
-        Mockito.when(walletRepository.findById(Mockito.eq(1L)))
+        Mockito.when(walletRepository.findById(1L))
                 .thenReturn(Optional.of(sourceWallet));
 
         walletService.updateWallet(sourceWallet, id);
 
-        Mockito.verify(walletRepository).save(Mockito.eq(sourceWallet));
+        assertThat(walletService.updateWallet(sourceWallet, id)).isEqualTo(sourceWallet);
+
     }
 
     @Test
@@ -96,7 +99,7 @@ public class WalletServiceTest {
 
         String actualMessage = Assertions.assertThrows(RuntimeException.class, () ->
                 walletService.updateWallet(sourceWallet, id)).getMessage();
-        assertThat(actualMessage, equalTo(expectedMessage));
+        assertThat(actualMessage).isEqualTo(expectedMessage);
     }
 
 }
