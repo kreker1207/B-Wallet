@@ -1,9 +1,14 @@
 package software.sigma.sip.application.service;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import software.sigma.sip.domain.entity.Wallet;
 import software.sigma.sip.domain.repository.WalletRepository;
 
@@ -11,15 +16,17 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@ExtendWith(MockitoExtension.class)
 
 public class WalletServiceTest {
-
+    @Mock
     private static WalletRepository walletRepository;
     private static WalletService walletService;
+    @Captor
+    ArgumentCaptor<Wallet> walletArgumentCaptor;
 
-    @BeforeAll
-    public static void setup() {
-        walletRepository = Mockito.mock(WalletRepository.class);
+    @BeforeEach
+    public void setup() {
         walletService = new WalletService(walletRepository);
     }
 
@@ -27,7 +34,6 @@ public class WalletServiceTest {
     void addWallet_success() {
         Wallet sourceWallet = new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08");
 
-        Mockito.when(walletRepository.findById(1L)).thenReturn(Optional.of(sourceWallet));
         walletService.addWallet(sourceWallet);
 
         Mockito.verify(walletRepository).save(sourceWallet);
@@ -84,8 +90,8 @@ public class WalletServiceTest {
                 .thenReturn(Optional.of(sourceWallet));
 
         walletService.updateWallet(sourceWallet, id);
-
-        assertThat(walletService.updateWallet(sourceWallet, id)).isEqualTo(sourceWallet);
+        Mockito.verify(walletRepository).save(walletArgumentCaptor.capture());
+        assertThat(walletArgumentCaptor.getValue()).isEqualTo(expected);
 
     }
 

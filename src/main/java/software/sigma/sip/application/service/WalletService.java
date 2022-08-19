@@ -1,6 +1,6 @@
 package software.sigma.sip.application.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import software.sigma.sip.domain.entity.Wallet;
@@ -11,10 +11,10 @@ import java.util.Objects;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class WalletService {
     private static final String ERROR_TEMPLATE = "Wallet was not found by id";
-    private WalletRepository walletRepository;
+    private final WalletRepository walletRepository;
 
     public Wallet getWallet(Long id) {
         log.info("Get Wallet: '{}'", id);
@@ -31,7 +31,8 @@ public class WalletService {
         if (!walletRepository.existsById(id)) {
             throw new EntityNotFoundException(ERROR_TEMPLATE);
         }
-        return walletRepository.save(builderHelper(wallet, id));
+        Wallet oldWallet = getWallet(id);
+        return walletRepository.save(applyChanges(wallet, oldWallet, id));
 
     }
 
@@ -43,15 +44,14 @@ public class WalletService {
 
     }
 
-    private Wallet builderHelper(Wallet wallet, Long id) {
-        Wallet oldWallet = getWallet(id);
+    private Wallet applyChanges(Wallet newWallet, Wallet oldWallet, Long id) {
         return Wallet.builder()
                 .id(id)
-                .ownerId(Objects.isNull(wallet.getOwnerId()) ? oldWallet.getOwnerId() : wallet.getOwnerId())
-                .name(Objects.isNull(wallet.getName()) ? oldWallet.getName() : wallet.getName())
-                .currency(Objects.isNull(wallet.getCurrency()) ? oldWallet.getCurrency() : wallet.getCurrency())
-                .amount(Objects.isNull(wallet.getAmount()) ? oldWallet.getAmount() : wallet.getAmount())
-                .createdAt(Objects.isNull(wallet.getCreatedAt()) ? oldWallet.getCreatedAt() : wallet.getCreatedAt())
+                .ownerId(Objects.isNull(newWallet.getOwnerId()) ? oldWallet.getOwnerId() : newWallet.getOwnerId())
+                .name(Objects.isNull(newWallet.getName()) ? oldWallet.getName() : newWallet.getName())
+                .currency(Objects.isNull(newWallet.getCurrency()) ? oldWallet.getCurrency() : newWallet.getCurrency())
+                .amount(Objects.isNull(newWallet.getAmount()) ? oldWallet.getAmount() : newWallet.getAmount())
+                .createdAt(Objects.isNull(newWallet.getCreatedAt()) ? oldWallet.getCreatedAt() : newWallet.getCreatedAt())
                 .build();
 
     }

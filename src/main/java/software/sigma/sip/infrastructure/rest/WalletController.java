@@ -1,6 +1,6 @@
 package software.sigma.sip.infrastructure.rest;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,25 +16,26 @@ import software.sigma.sip.domain.entity.Wallet;
 import software.sigma.sip.infrastructure.dto.WalletDto;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/wallets")
 public class WalletController {
-    private WalletService walletService;
+    private final WalletService walletService;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addWallet(@RequestBody Wallet wallet){
+    public void addWallet(@RequestBody Wallet wallet) {
         walletService.addWallet(wallet);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public WalletDto getWallet(@PathVariable Long id){
+    public WalletDto getWallet(@PathVariable Long id) {
         return WalletDto.toWalletDto(walletService.getWallet(id));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteWallet(@PathVariable Long id){
+    public void deleteWallet(@PathVariable Long id) {
         walletService.deleteWallet(id);
     }
 

@@ -3,6 +3,7 @@ package software.sigma.sip.domain.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Builder
 @AllArgsConstructor
+@EqualsAndHashCode
 @NoArgsConstructor
 @Table(name = "wallet")
 public class Wallet {
