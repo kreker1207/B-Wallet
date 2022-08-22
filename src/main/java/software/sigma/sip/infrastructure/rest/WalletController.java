@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import software.sigma.sip.application.service.WalletService;
-import software.sigma.sip.domain.entity.Wallet;
 import software.sigma.sip.infrastructure.dto.WalletDto;
 
 @RestController
@@ -23,8 +22,8 @@ public class WalletController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addWallet(@RequestBody Wallet wallet) {
-        walletService.addWallet(wallet);
+    public void addWallet(@RequestBody WalletDto walletDto) {
+        walletService.addWallet(walletDto.toWallet());
     }
 
     @GetMapping("/{id}")
@@ -41,7 +40,7 @@ public class WalletController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public WalletDto updateWallet(@RequestBody Wallet wallet, @PathVariable Long id) {
-        return WalletDto.toWalletDto(walletService.updateWallet(wallet, id));
+    public WalletDto updateWallet(@RequestBody WalletDto walletDto, @PathVariable Long id) {
+        return WalletDto.toWalletDto(walletService.updateWallet(walletDto.toWallet(), id));
     }
 }

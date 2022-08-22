@@ -25,4 +25,8 @@ public class WalletDto {
                 .createdAt(wallet.getCreatedAt())
                 .build();
     }
+
+    public Wallet toWallet() {
+        return new Wallet(id, ownerId, name, currency, amount, createdAt);
+    }
 }
