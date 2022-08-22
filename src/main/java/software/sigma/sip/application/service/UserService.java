@@ -1,6 +1,6 @@
 package software.sigma.sip.application.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import software.sigma.sip.domain.entity.User;
 import software.sigma.sip.domain.repository.UserRepository;
@@ -10,11 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
-   private UserRepository userRepository;
-
    private static final String ERROR_TEMPLATE = "User was not found by id";
+   private final UserRepository userRepository;
 
    public List<User> getUsers() {
       return userRepository.findAll();
@@ -27,7 +26,6 @@ public class UserService {
    }
 
    public void addUser(User user) {
-      user.setIsActive("true");
       userRepository.save(user);
    }
 

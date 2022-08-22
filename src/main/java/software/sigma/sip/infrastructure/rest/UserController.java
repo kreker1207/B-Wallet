@@ -1,6 +1,6 @@
 package software.sigma.sip.infrastructure.rest;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +17,10 @@ import software.sigma.sip.infrastructure.dto.UserDto;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-   private UserService userService;
+   private final UserService userService;
 
    @GetMapping
    @ResponseStatus(HttpStatus.OK)
