@@ -5,6 +5,6 @@ create table wallet
     amount     VARCHAR(35) NOT NULL,
     created_at VARCHAR(10) NOT NULL,
     currency   VARCHAR(10) NOT NULL,
-    owner_id   bigint,
+    owner_id   bigint      NOT NULL,
     primary key (id)
 );
