@@ -17,7 +17,6 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-
 public class WalletServiceTest {
     @Mock
     private static WalletRepository walletRepository;
