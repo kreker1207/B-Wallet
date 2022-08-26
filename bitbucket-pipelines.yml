@@ -5,7 +5,7 @@
 
 # Prerequisites: pom.xml and appropriate project structure should exist in the repository.
 
-image: maven:amazoncorretto-17
+image: maven:3-amazoncorretto-17
 
 pipelines:
   default:
