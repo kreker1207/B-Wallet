@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import software.sigma.sip.application.service.UserService;
@@ -18,35 +17,34 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
 public class UserController {
    private final UserService userService;
 
-   @GetMapping
+   @GetMapping("/admin")
    @ResponseStatus(HttpStatus.OK)
    public List<UserDto> getUsers() {
       return userService.getUsers().stream().map(UserDto::toUserDto).toList();
    }
 
-   @PostMapping
+   @PostMapping("/user")
    @ResponseStatus(HttpStatus.CREATED)
    public void addUser(@RequestBody UserDto userDto) {
       userService.addUser(userDto.toUser());
    }
 
-   @GetMapping("/{id}")
+   @GetMapping("admin/{id}")
    @ResponseStatus(HttpStatus.OK)
    public UserDto getUser(@PathVariable Long id) {
       return UserDto.toUserDto(userService.getUser(id));
    }
 
-   @PutMapping
+   @PutMapping("/user")
    @ResponseStatus(HttpStatus.OK)
    public void updateUser(@RequestBody UserDto userDto) {
       userService.updateUser(userDto.toUser());
    }
 
-   @DeleteMapping("/{id}")
+   @DeleteMapping("admin/{id}")
    @ResponseStatus(HttpStatus.NO_CONTENT)
    public void deactivateUser(@PathVariable Long id) {
       userService.deactivateUser(id);

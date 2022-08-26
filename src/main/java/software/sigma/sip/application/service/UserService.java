@@ -2,6 +2,7 @@ package software.sigma.sip.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import software.sigma.sip.domain.entity.Status;
 import software.sigma.sip.domain.entity.User;
 import software.sigma.sip.domain.repository.UserRepository;
 
@@ -42,7 +43,7 @@ public class UserService {
          throw new EntityNotFoundException(ERROR_TEMPLATE);
       }
       User user = userOptional.get();
-      user.setIsActive("false");
+      user.setStatus(Status.DISABLED);
       updateUser(user);
    }
 }

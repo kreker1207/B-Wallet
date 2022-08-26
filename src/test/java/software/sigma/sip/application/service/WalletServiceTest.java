@@ -20,11 +20,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class WalletServiceTest {
     @Mock
-    private static WalletRepository walletRepository;
+    private WalletRepository walletRepository;
     @InjectMocks
-    private static WalletService walletService;
+    private WalletService walletService;
     @Captor
-    ArgumentCaptor<Wallet> walletArgumentCaptor;
+    private ArgumentCaptor<Wallet> walletArgumentCaptor;
 
 
 
