@@ -9,3 +9,6 @@ spring:
         generate-ddl: false
         hibernate:
             ddl-auto: validate
+currency-api:
+    access-token: 6ygwxetoeolnuhumg6zl
+    url: https://currencydatafeed.com/api
