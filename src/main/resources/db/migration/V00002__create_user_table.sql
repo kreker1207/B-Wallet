@@ -7,7 +7,7 @@ create table user
     name       VARCHAR(40) NOT NULL,
     phone      VARCHAR(13) NOT NULL,
     surname    VARCHAR(40) NOT NULL,
-    is_active  boolean DEFAULT true,
-    constraint USERS_PK
+    is_active  VARCHAR(5) DEFAULT 'true',
+    constraint USER_PK
         primary key (id)
 );

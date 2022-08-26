@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import software.sigma.sip.application.service.CurrencyService;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,13 +21,13 @@ public class CurrencyController {
 
    @GetMapping("/{source}/{target}")
    @ResponseStatus(HttpStatus.OK)
-   public Map<String, Map<String, String>> getCourse(@PathVariable String source, @PathVariable String target) {
+   public Map<String, Map<String, String>> getCourse(@PathVariable String source, @PathVariable List<String> target) {
       return Map.of(source, service.getValue(source, target));
    }
 
    @GetMapping("/{source}/{target}/{amount}")
    @ResponseStatus(HttpStatus.OK)
-   public Map<String, Map<String, String>> getCourse(@PathVariable String source, @PathVariable String target, @PathVariable int amount) {
+   public Map<String, Map<String, String>> getCourse(@PathVariable String source, @PathVariable List<String> target, @PathVariable int amount) {
       Map<String, String> map = service.getValue(source, target);
       map.forEach((key, value) -> {
          map.put(key, new BigDecimal(value).multiply(new BigDecimal(amount)).toString());

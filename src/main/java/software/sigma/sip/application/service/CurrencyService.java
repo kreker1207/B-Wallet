@@ -8,6 +8,7 @@ import software.sigma.sip.domain.client.CurrencyDataFeedClient;
 import software.sigma.sip.infrastructure.dto.CurrencyDto;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -17,8 +18,8 @@ public class CurrencyService {
    private String accessToken;
    private final CurrencyDataFeedClient client;
 
-   public Map<String, String> getValue(String source, String target) {
-      CurrencyDto currencyDto = client.getCourse(source, target.replace("+", " "), accessToken);
+   public Map<String, String> getValue(String source, List<String> target) {
+      CurrencyDto currencyDto = client.getCourse(source, String.join(" ", target), accessToken);
       Map<String, String> map = new HashMap<>();
       for (Map<String, String> currency : currencyDto.getCurrency()) {
          if (currency.get("error") != null) {
