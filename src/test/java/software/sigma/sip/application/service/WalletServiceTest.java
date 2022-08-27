@@ -12,6 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import software.sigma.sip.domain.entity.Wallet;
 import software.sigma.sip.domain.repository.WalletRepository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -50,6 +53,26 @@ public class WalletServiceTest {
                 .thenReturn(Optional.empty());
 
         Assertions.assertThrows(RuntimeException.class, () -> walletService.getWallet(1L));
+    }
+
+    @Test
+    void getWalletByOwnerId_success() {
+        List<Wallet> walletList = Arrays.asList(new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08"),
+                new Wallet(2L, 1L, "Roman", "USD", "200.00", "17.08"));
+
+        Mockito.when(walletRepository.findWalletsByOwnerId(1L))
+                .thenReturn(walletList);
+        List<Wallet> target = walletService.getWalletsByOwnerId(1L);
+        assertThat(target).isEqualTo(walletList);
+    }
+
+    @Test
+    void getWalletByOwnerId_empty() {
+        Mockito.when(walletRepository.findWalletsByOwnerId(1L))
+                .thenReturn(new ArrayList<>());
+
+        List<Wallet> target = walletService.getWalletsByOwnerId(1L);
+        assertThat(target).asList().isNullOrEmpty();
     }
 
     @Test
