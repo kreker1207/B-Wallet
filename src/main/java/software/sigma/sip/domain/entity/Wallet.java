@@ -16,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Getter
 @Setter
 @ToString
@@ -29,7 +28,6 @@ import javax.persistence.Table;
 public class Wallet {
     @Id
     @Column(name = "id")
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "owner_id")
