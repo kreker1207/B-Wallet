@@ -10,9 +10,7 @@ import software.sigma.sip.domain.entity.User;
 @Builder
 public class UserDto {
     private Long id;
-
     private String userName;
-
     private String password;
     private Role roles;
     private String name;
@@ -35,9 +33,9 @@ public class UserDto {
                 .country(user.getCountry())
                 .birthDate(user.getBirthDate())
                 .status(user.getStatus()).build();
-   }
+    }
 
-   public User toUser() {
-       return new User(id, userName, password, roles, name, surname, email, phone, country, birthDate, status);
-   }
+    public User toUser() {
+        return new User(id, userName, password, roles, name, surname, email, phone, country, birthDate, status);
+    }
 }

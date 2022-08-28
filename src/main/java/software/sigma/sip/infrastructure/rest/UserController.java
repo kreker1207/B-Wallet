@@ -18,35 +18,35 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
-   private final UserService userService;
+    private final UserService userService;
 
-   @GetMapping("/admin")
-   @ResponseStatus(HttpStatus.OK)
-   public List<UserDto> getUsers() {
-      return userService.getUsers().stream().map(UserDto::toUserDto).toList();
-   }
+    @GetMapping("/admin")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDto> getUsers() {
+        return userService.getUsers().stream().map(UserDto::toUserDto).toList();
+    }
 
-   @PostMapping("/user")
-   @ResponseStatus(HttpStatus.CREATED)
-   public void addUser(@RequestBody UserDto userDto) {
-      userService.addUser(userDto.toUser());
-   }
+    @PostMapping("/user")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addUser(@RequestBody UserDto userDto) {
+        userService.addUser(userDto.toUser());
+    }
 
-   @GetMapping("admin/{id}")
-   @ResponseStatus(HttpStatus.OK)
-   public UserDto getUser(@PathVariable Long id) {
-      return UserDto.toUserDto(userService.getUser(id));
-   }
+    @GetMapping("admin/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto getUser(@PathVariable Long id) {
+        return UserDto.toUserDto(userService.getUser(id));
+    }
 
-   @PutMapping("/user")
-   @ResponseStatus(HttpStatus.OK)
-   public void updateUser(@RequestBody UserDto userDto) {
-      userService.updateUser(userDto.toUser());
-   }
+    @PutMapping("/user")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateUser(@RequestBody UserDto userDto) {
+        userService.updateUser(userDto.toUser());
+    }
 
-   @DeleteMapping("admin/{id}")
-   @ResponseStatus(HttpStatus.NO_CONTENT)
-   public void deactivateUser(@PathVariable Long id) {
-      userService.deactivateUser(id);
-   }
+    @DeleteMapping("admin/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deactivateUser(@PathVariable Long id) {
+        userService.deactivateUser(id);
+    }
 }
