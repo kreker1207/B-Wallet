@@ -10,7 +10,7 @@ create table users
     name       VARCHAR(40) NOT NULL,
     phone      VARCHAR(13) NOT NULL,
     surname    VARCHAR(40) NOT NULL,
-    status     VARCHAR(10)          DEFAULT 'ACTIVE' NOT NULL,
+    status     VARCHAR(10) DEFAULT 'ACTIVE' NOT NULL,
     constraint USERS_PK
         primary key (id)
 );
