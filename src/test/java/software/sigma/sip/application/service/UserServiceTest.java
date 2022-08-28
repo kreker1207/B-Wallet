@@ -100,7 +100,7 @@ class UserServiceTest {
       userService.deactivateUser(1L);
 
       Mockito.verify(userRepository).save(new User(1L, "roman", "password", Role.USER, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
-              "+380999999999", "Ukraine", "2003.03.14", Status.ACTIVE,null));
+              "+380999999999", "Ukraine", "2003.03.14", Status.DISABLED,null));
    }
 
    @Test
