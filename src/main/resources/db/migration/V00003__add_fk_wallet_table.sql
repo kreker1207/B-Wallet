@@ -1,0 +1,3 @@
+ALTER TABLE wallet
+    ADD CONSTRAINT WALLET_FK
+        FOREIGN KEY (owner_id) REFERENCES user(id);
