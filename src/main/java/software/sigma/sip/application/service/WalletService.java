@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import software.sigma.sip.domain.entity.Wallet;
 import software.sigma.sip.domain.repository.WalletRepository;
+import software.sigma.sip.infrastructure.dto.WalletDto;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -21,6 +23,10 @@ public class WalletService {
         return walletRepository.findById(id).orElseThrow(() -> {
             throw new EntityNotFoundException(ERROR_TEMPLATE);
         });
+    }
+
+    public List<Wallet> getWalletsByOwnerId(Long ownerId) {
+        return walletRepository.findWalletsByOwnerId(ownerId);
     }
 
     public void addWallet(Wallet wallet) {

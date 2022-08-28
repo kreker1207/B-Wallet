@@ -1,4 +1,4 @@
-create table users
+create table user
 (
     id         bigint auto_increment,
     username   VARCHAR(35) NOT NULL UNIQUE,

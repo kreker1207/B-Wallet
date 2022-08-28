@@ -9,21 +9,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import software.sigma.sip.application.service.WalletService;
 import software.sigma.sip.infrastructure.dto.WalletDto;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/wallet")
 @RequiredArgsConstructor
+@RequestMapping("/wallets")
 public class WalletController {
     private final WalletService walletService;
 
-    @PostMapping("/user")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void addWallet(@RequestBody WalletDto walletDto) {
         walletService.addWallet(walletDto.toWallet());
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<WalletDto> getWalletsByOwnerId(@RequestParam Long ownerId) {
+        return walletService.getWalletsByOwnerId(ownerId).stream().map(WalletDto::toWalletDto).toList();
     }
 
     @GetMapping("/user/{id}")
