@@ -20,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_READ)")
 @RequestMapping("/wallets")
 public class WalletController {
     private final WalletService walletService;
@@ -32,14 +33,12 @@ public class WalletController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_READ)")
     @ResponseStatus(HttpStatus.OK)
     public List<WalletDto> getWalletsByOwnerId(@RequestParam Long ownerId) {
         return walletService.getWalletsByOwnerId(ownerId).stream().map(WalletDto::toWalletDto).toList();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_READ)")
     @ResponseStatus(HttpStatus.OK)
     public WalletDto getWallet(@PathVariable Long id) {
         return WalletDto.toWalletDto(walletService.getWallet(id));

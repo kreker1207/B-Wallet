@@ -19,12 +19,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_READ)")
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_READ)")
     @ResponseStatus(HttpStatus.OK)
     public List<UserDto> getUsers() {
         return userService.getUsers().stream().map(UserDto::toUserDto).toList();
@@ -38,7 +38,6 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_READ)")
     @ResponseStatus(HttpStatus.OK)
     public UserDto getUser(@PathVariable Long id) {
         return UserDto.toUserDto(userService.getUser(id));
@@ -52,7 +51,6 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_READ)")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deactivateUser(@PathVariable Long id) {
         userService.deactivateUser(id);
