@@ -6,7 +6,3 @@ ALTER TABLE user
     status   VARCHAR(10) DEFAULT 'ACTIVE' NOT NULL
     );
 ALTER TABLE user DROP COLUMN is_active;
-
-
-
-
