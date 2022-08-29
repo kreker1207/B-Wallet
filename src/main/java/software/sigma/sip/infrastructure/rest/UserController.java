@@ -24,35 +24,35 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('developers.read')")
+    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_READ)")
     @ResponseStatus(HttpStatus.OK)
     public List<UserDto> getUsers() {
         return userService.getUsers().stream().map(UserDto::toUserDto).toList();
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('developers.write')")
+    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_WRITE)")
     @ResponseStatus(HttpStatus.CREATED)
     public void addUser(@RequestBody UserDto userDto) {
         userService.addUser(userDto.toUser());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('developers.read')")
+    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_READ)")
     @ResponseStatus(HttpStatus.OK)
     public UserDto getUser(@PathVariable Long id) {
         return UserDto.toUserDto(userService.getUser(id));
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('developers.write')")
+    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_WRITE)")
     @ResponseStatus(HttpStatus.OK)
     public void updateUser(@RequestBody UserDto userDto) {
         userService.updateUser(userDto.toUser());
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('developers.read')")
+    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_READ)")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deactivateUser(@PathVariable Long id) {
         userService.deactivateUser(id);
