@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import software.sigma.sip.domain.entity.Wallet;
 import software.sigma.sip.domain.repository.WalletRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -119,6 +120,29 @@ public class WalletServiceTest {
 
         String actualMessage = Assertions.assertThrows(RuntimeException.class, () ->
                 walletService.updateWallet(sourceWallet, 1L)).getMessage();
+        assertThat(actualMessage).isEqualTo(expectedMessage);
+    }
+
+    @Test
+    void adjunctionMoney_success() {
+        Wallet sourceWallet = new Wallet(1L, 2L, "Ivan", "USD", "200.00", "17.08");
+
+        Mockito.when(walletRepository.findById(Mockito.eq(1L))).thenReturn(Optional.of(sourceWallet));
+
+        walletService.adjunctionMoney(1L, "150");
+
+        Mockito.verify(walletRepository).save(new Wallet(1L, 2L, "Ivan", "USD", "350.00", "17.08"));
+    }
+
+    @Test
+    void adjunctionMoney_failure() {
+        Mockito.when(walletRepository.findById(Mockito.eq(1L))).thenReturn(Optional.empty());
+
+        String expectedMessage = "Wallet was not found by id";
+
+        String actualMessage = Assertions.assertThrows(EntityNotFoundException.class, () ->
+                walletService.adjunctionMoney(1L, "150")).getMessage();
+
         assertThat(actualMessage).isEqualTo(expectedMessage);
     }
 

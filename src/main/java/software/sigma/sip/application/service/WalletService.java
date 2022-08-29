@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import software.sigma.sip.domain.entity.Wallet;
 import software.sigma.sip.domain.repository.WalletRepository;
-import software.sigma.sip.infrastructure.dto.WalletDto;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,5 +60,11 @@ public class WalletService {
                 .createdAt(Objects.isNull(newWallet.getCreatedAt()) ? oldWallet.getCreatedAt() : newWallet.getCreatedAt())
                 .build();
 
+    }
+
+    public Wallet adjunctionMoney(Long id, String value) {
+        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ERROR_TEMPLATE));
+        wallet.setAmount(new BigDecimal(wallet.getAmount()).add(new BigDecimal(value)).toString());
+        return walletRepository.save(wallet);
     }
 }
