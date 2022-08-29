@@ -47,6 +47,12 @@ public class WalletController {
         walletService.deleteWallet(id);
     }
 
+    @PutMapping("/{id}/{value}")
+    @ResponseStatus(HttpStatus.OK)
+    public WalletDto adjunctionMoney(@PathVariable Long id, @PathVariable String value) {
+        return WalletDto.toWalletDto(walletService.adjunctionMoney(id, value));
+    }
+
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public WalletDto updateWallet(@RequestBody WalletDto walletDto, @PathVariable Long id) {
