@@ -29,8 +29,6 @@ public class WalletServiceTest {
     @Captor
     private ArgumentCaptor<Wallet> walletArgumentCaptor;
 
-
-
     @Test
     void addWallet_success() {
         Wallet sourceWallet = new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08");
