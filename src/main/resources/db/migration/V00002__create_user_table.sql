@@ -1,5 +1,4 @@
 create table user
-
 (
     id         bigint auto_increment,
     country    VARCHAR(35) NOT NULL,
@@ -10,3 +9,5 @@ create table user
     surname    VARCHAR(40) NOT NULL,
     is_active  VARCHAR(5) DEFAULT 'true',
     constraint USER_PK
+        primary key (id)
+);
