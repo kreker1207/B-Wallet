@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import software.sigma.sip.domain.entity.Wallet;
 import software.sigma.sip.domain.repository.WalletRepository;
-import software.sigma.sip.infrastructure.dto.WalletDto;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;

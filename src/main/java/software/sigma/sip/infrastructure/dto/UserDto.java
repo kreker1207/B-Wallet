@@ -8,9 +8,7 @@ import software.sigma.sip.domain.entity.User;
 import software.sigma.sip.domain.entity.Wallet;
 
 import java.util.List;
-import software.sigma.sip.domain.entity.Wallet;
 
-import java.util.List;
 
 @Data
 @Builder
