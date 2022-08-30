@@ -3,8 +3,8 @@ package software.sigma.sip.infrastructure.dto;
 import lombok.Builder;
 import lombok.Data;
 import software.sigma.sip.domain.entity.User;
-import software.sigma.sip.domain.entity.Wallet;
 
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -18,7 +18,8 @@ public class UserDto {
    private String country;
    private String birthDate;
    private String isActive;
-   private List<Wallet> walletList;
+   private List<String> favCurrencies;
+   private List<WalletDto> walletList;
 
    public static UserDto toUserDto(User user) {
       return UserDto.builder().id(user.getId())
@@ -29,10 +30,12 @@ public class UserDto {
               .country(user.getCountry())
               .birthDate(user.getBirthDate())
               .isActive(user.getIsActive())
-              .walletList(user.getWalletList()).build();
+              .favCurrencies(user.getFavCurrencies())
+              .walletList(user.getWalletList().stream().map(WalletDto::toWalletDto).toList()).build();
    }
 
    public User toUser() {
-      return new User(id, name, surname, email, phone, country, birthDate, isActive, walletList);
+      return new User(id, name, surname, email, phone, country, birthDate, isActive, favCurrencies,
+              walletList == null ? Collections.emptyList() : walletList.stream().map(WalletDto::toWallet).toList());
    }
 }
