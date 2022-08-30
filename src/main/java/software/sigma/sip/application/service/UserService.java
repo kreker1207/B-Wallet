@@ -6,7 +6,9 @@ import software.sigma.sip.domain.entity.User;
 import software.sigma.sip.domain.repository.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -14,15 +16,30 @@ import java.util.Optional;
 public class UserService {
    private static final String ERROR_TEMPLATE = "User was not found by id";
    private final UserRepository userRepository;
+   private final CurrencyService currencyService;
 
    public List<User> getUsers() {
-      return userRepository.findAll();
+      List<User> users = userRepository.findAll();
+      users.forEach(this::addValueForFavCurrencies);
+      return users;
    }
 
    public User getUser(Long id) {
-      return userRepository.findById(id).orElseThrow(() -> {
+      return addValueForFavCurrencies(userRepository.findById(id).orElseThrow(() -> {
          throw new EntityNotFoundException(ERROR_TEMPLATE);
-      });
+      }));
+   }
+
+   private User addValueForFavCurrencies(User user) {
+      user.getWalletList()
+              .forEach(wallet -> {
+                 Map<String, String> map = currencyService.getValue(wallet.getCurrency(), user.getFavCurrencies());
+                 map.forEach((key, value) -> {
+                    map.put(key, new BigDecimal(value).multiply(new BigDecimal(wallet.getAmount())).toString());
+                 });
+                 wallet.setConvertedCurrency(map);
+              });
+      return user;
    }
 
    public void addUser(User user) {

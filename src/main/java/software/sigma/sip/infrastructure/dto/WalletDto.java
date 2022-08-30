@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import software.sigma.sip.domain.entity.Wallet;
 
+import java.util.Map;
 
 @Data
 @Builder
@@ -14,6 +15,7 @@ public class WalletDto {
     String currency;
     String amount;
     String createdAt;
+    Map<String, String> convertedCurrency;
 
     public static WalletDto toWalletDto(Wallet wallet) {
         return WalletDto.builder()
@@ -23,10 +25,11 @@ public class WalletDto {
                 .currency(wallet.getCurrency())
                 .amount(wallet.getAmount())
                 .createdAt(wallet.getCreatedAt())
+                .convertedCurrency(wallet.getConvertedCurrency())
                 .build();
     }
 
     public Wallet toWallet() {
-        return new Wallet(id, ownerId, name, currency, amount, createdAt);
+        return new Wallet(id, ownerId, name, currency, amount, createdAt, convertedCurrency);
     }
 }

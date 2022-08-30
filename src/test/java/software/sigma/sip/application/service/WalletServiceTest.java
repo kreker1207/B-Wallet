@@ -15,6 +15,7 @@ import software.sigma.sip.domain.repository.WalletRepository;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class WalletServiceTest {
 
     @Test
     void addWallet_success() {
-        Wallet sourceWallet = new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08");
+        Wallet sourceWallet = new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08", new HashMap<>());
 
         walletService.addWallet(sourceWallet);
 
@@ -40,7 +41,7 @@ public class WalletServiceTest {
 
     @Test
     void getWallet_success() {
-        Wallet source = new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08");
+        Wallet source = new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08", new HashMap<>());
 
         Mockito.when(walletRepository.findById(1L))
                 .thenReturn(Optional.of(source));
@@ -58,8 +59,8 @@ public class WalletServiceTest {
 
     @Test
     void getWalletByOwnerId_success() {
-        List<Wallet> walletList = Arrays.asList(new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08"),
-                new Wallet(2L, 1L, "Roman", "USD", "200.00", "17.08"));
+        List<Wallet> walletList = Arrays.asList(new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08", new HashMap<>()),
+                new Wallet(2L, 1L, "Roman", "USD", "200.00", "17.08", new HashMap<>()));
 
         Mockito.when(walletRepository.findWalletsByOwnerId(1L))
                 .thenReturn(walletList);
@@ -96,8 +97,8 @@ public class WalletServiceTest {
 
     @Test
     void updateWallet_success() {
-        Wallet sourceWallet = new Wallet(1L, 2L, "Ivan", "USD", "200.00", "17.08");
-        Wallet expected = new Wallet(1L, 2L, "Ivan", "USD", "200.00", "17.08");
+        Wallet sourceWallet = new Wallet(1L, 2L, "Ivan", "USD", "200.00", "17.08", new HashMap<>());
+        Wallet expected = new Wallet(1L, 2L, "Ivan", "USD", "200.00", "17.08", new HashMap<>());
 
         Mockito.when(walletRepository.existsById(1L))
                 .thenReturn(true);
@@ -112,7 +113,7 @@ public class WalletServiceTest {
 
     @Test
     void updateWallet_failure() {
-        Wallet sourceWallet = new Wallet(1L, 2L, "Ivan", "USD", "200.00", "17.08");
+        Wallet sourceWallet = new Wallet(1L, 2L, "Ivan", "USD", "200.00", "17.08", new HashMap<>());
         Long id = 1L;
 
         Mockito.when(walletRepository.existsById(Mockito.eq(id))).thenReturn(false);
@@ -125,13 +126,13 @@ public class WalletServiceTest {
 
     @Test
     void adjunctionMoney_success() {
-        Wallet sourceWallet = new Wallet(1L, 2L, "Ivan", "USD", "200.00", "17.08");
+        Wallet sourceWallet = new Wallet(1L, 2L, "Ivan", "USD", "200.00", "17.08", new HashMap<>());
 
         Mockito.when(walletRepository.findById(Mockito.eq(1L))).thenReturn(Optional.of(sourceWallet));
 
         walletService.adjunctionMoney(1L, "150");
 
-        Mockito.verify(walletRepository).save(new Wallet(1L, 2L, "Ivan", "USD", "350.00", "17.08"));
+        Mockito.verify(walletRepository).save(new Wallet(1L, 2L, "Ivan", "USD", "350.00", "17.08", new HashMap<>()));
     }
 
     @Test
