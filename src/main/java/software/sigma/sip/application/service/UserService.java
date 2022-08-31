@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,9 +20,7 @@ public class UserService {
    private final CurrencyService currencyService;
 
    public List<User> getUsers() {
-      List<User> users = userRepository.findAll();
-      users.forEach(this::addValueForFavCurrencies);
-      return users;
+      return userRepository.findAll().stream().map(this::addValueForFavCurrencies).toList();
    }
 
    public User getUser(Long id) {
@@ -31,14 +30,12 @@ public class UserService {
    }
 
    private User addValueForFavCurrencies(User user) {
-      user.getWalletList()
-              .forEach(wallet -> {
-                 Map<String, String> map = currencyService.getValue(wallet.getCurrency(), user.getFavCurrencies());
-                 map.forEach((key, value) -> {
-                    map.put(key, new BigDecimal(value).multiply(new BigDecimal(wallet.getAmount())).toString());
-                 });
-                 wallet.setConvertedCurrency(map);
-              });
+      user.getWalletList().forEach(wallet ->
+              wallet.setConvertedCurrency(currencyService.getValue(wallet.getCurrency(), user.getFavCurrencies())
+                      .entrySet().stream()
+                      .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.setValue(
+                              new BigDecimal(entry.getValue()).multiply(new BigDecimal(wallet.getAmount())).toString())
+                      ))));
       return user;
    }
 
