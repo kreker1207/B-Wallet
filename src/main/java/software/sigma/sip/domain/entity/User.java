@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,6 +36,13 @@ public class User {
    @Column(name = "id")
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
+   @Column(name = "username")
+   private String userName;
+   @Column(name = "password")
+   private String password;
+   @Enumerated(value = EnumType.STRING)
+   @Column(name = "roles")
+   private Role roles;
    @Column(name = "name")
    private String name;
    @Column(name = "surname")
@@ -46,8 +55,9 @@ public class User {
    private String country;
    @Column(name = "birthDate")
    private String birthDate;
-   @Column(name = "is_active")
-   private String isActive;
+   @Enumerated(value = EnumType.STRING)
+   @Column(name = "status")
+   private Status status;
    @ElementCollection(targetClass = String.class)
    private List<String> favCurrencies;
    @OneToMany(cascade = CascadeType.ALL)
