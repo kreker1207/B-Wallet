@@ -20,8 +20,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
+    public static final String USERS = "/users**";
+    public static final String WALLETS = "/wallets**";
 
     private final UserDetailsService userDetailsService;
 
@@ -34,16 +35,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authz) -> authz
-                        .antMatchers(HttpMethod.GET, "/users").hasAuthority(Permission.READ.getPermission())
-                        .antMatchers(HttpMethod.POST, "/users").hasAuthority(Permission.WRITE.getPermission())
-                        .antMatchers(HttpMethod.PUT, "/users").hasAuthority(Permission.WRITE.getPermission())
-                        .antMatchers(HttpMethod.GET, "/users/**").hasAuthority(Permission.READ.getPermission())
-                        .antMatchers(HttpMethod.DELETE, "/users/**").hasAuthority(Permission.READ.getPermission())
-                        .antMatchers(HttpMethod.POST, "/wallets").hasAuthority(Permission.WRITE.getPermission())
-                        .antMatchers(HttpMethod.GET, "/wallets").hasAuthority(Permission.READ.getPermission())
-                        .antMatchers(HttpMethod.GET, "/wallets/**").hasAuthority(Permission.READ.getPermission())
-                        .antMatchers(HttpMethod.DELETE, "/wallets/**").hasAuthority(Permission.WRITE.getPermission())
-                        .antMatchers(HttpMethod.PUT, "/wallets/**").hasAuthority(Permission.WRITE.getPermission())
+                        .antMatchers(HttpMethod.GET, USERS,WALLETS).hasAuthority(Permission.READ.getPermission())
+                        .antMatchers(HttpMethod.POST, USERS,WALLETS).hasAuthority(Permission.WRITE.getPermission())
+                        .antMatchers(HttpMethod.PUT, USERS,WALLETS).hasAuthority(Permission.WRITE.getPermission())
+                        .antMatchers(HttpMethod.DELETE, USERS).hasAuthority(Permission.READ.getPermission())
+                        .antMatchers(HttpMethod.DELETE, WALLETS).hasAuthority(Permission.WRITE.getPermission())
                         .anyRequest()
                         .authenticated()
                 )
