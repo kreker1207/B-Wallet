@@ -2,16 +2,18 @@ package software.sigma.sip.infrastructure.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import software.sigma.sip.domain.entity.Role;
+import software.sigma.sip.domain.entity.Status;
 import software.sigma.sip.domain.entity.User;
-import software.sigma.sip.domain.entity.Wallet;
 
+import java.util.Collections;
 import java.util.List;
 
 @Data
 @Builder
 public class UserDto {
    private Long id;
-   private String userName;
+   private String username;
    private String password;
    private Role roles;
    private String name;
@@ -26,7 +28,7 @@ public class UserDto {
 
    public static UserDto toUserDto(User user) {
       return UserDto.builder().id(user.getId())
-              .userName(user.getUserName())
+              .username(user.getUsername())
               .password(user.getPassword())
               .roles(user.getRoles())
               .name(user.getName())
@@ -41,6 +43,7 @@ public class UserDto {
    }
 
    public User toUser() {
-      return new User(id, name, surname, email, phone, country, birthDate, isActive, walletList);
+      return new User(id, username, password, roles, name, surname, email, phone, country, birthDate, status, favCurrencies,
+              walletList == null ? Collections.emptyList() : walletList.stream().map(WalletDto::toWallet).toList());
    }
 }
