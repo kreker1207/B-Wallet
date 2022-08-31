@@ -19,6 +19,10 @@ public class WalletService {
     private static final String ERROR_TEMPLATE = "Wallet was not found by id";
     private final WalletRepository walletRepository;
 
+    public List<Wallet> getWallets() {
+        return walletRepository.findAll();
+    }
+
     public Wallet getWallet(Long id) {
         log.info("Get Wallet: '{}'", id);
         return walletRepository.findById(id).orElseThrow(() -> {
