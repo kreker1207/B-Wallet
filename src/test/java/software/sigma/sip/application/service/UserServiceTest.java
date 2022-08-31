@@ -7,6 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import software.sigma.sip.domain.entity.Role;
+import software.sigma.sip.domain.entity.Status;
 import software.sigma.sip.domain.entity.User;
 import software.sigma.sip.domain.repository.UserRepository;
 
@@ -27,10 +29,10 @@ class UserServiceTest {
    @Test
    void getUsers() {
       List<User> userList = Arrays.asList(
-              new User(1L, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
-                      "+380999999999", "Ukraine", "2003.03.14", "true", null),
-              new User(2L, "Roman2", "Dovzhenko", "romandovzhenko@gmail.com",
-                      "+380999999999", "Ukraine", "2003.03.14", "true", null));
+              new User(1L, "roman", "password", Role.USER, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
+                      "+380999999999", "Ukraine", "2003.03.14", Status.ACTIVE,null),
+              new User(1L, "roman", "password", Role.USER, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
+                      "+380999999999", "Ukraine", "2003.03.14", Status.ACTIVE,null));
 
       Mockito.when(userRepository.findAll()).thenReturn(userList);
       List<User> expectedList = userService.getUsers();
@@ -40,8 +42,8 @@ class UserServiceTest {
 
    @Test
    void getUser_success() {
-      User sourceUser = new User(1L, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
-              "+380999999999", "Ukraine", "2003.03.14", "true", null);
+      User sourceUser = new User(1L, "roman", "password", Role.USER, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
+              "+380999999999", "Ukraine", "2003.03.14", Status.ACTIVE,null);
 
       Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(sourceUser));
       User expectedUser = userService.getUser(1L);
@@ -58,8 +60,8 @@ class UserServiceTest {
 
    @Test
    void addUser() {
-      User user = new User(1L, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
-              "+380999999999", "Ukraine", "2003.03.14", "true", null);
+      User user = new User(1L, "roman", "password", Role.USER, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
+              "+380999999999", "Ukraine", "2003.03.14", Status.ACTIVE,null);
 
       userService.addUser(user);
 
@@ -68,8 +70,8 @@ class UserServiceTest {
 
    @Test
    void updateUser_success() {
-      User user = new User(1L, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
-              "+380999999999", "Ukraine", "2003.03.14", "true", null);
+      User user = new User(1L, "roman", "password", Role.USER, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
+              "+380999999999", "Ukraine", "2003.03.14", Status.ACTIVE,null);
 
       Mockito.when(userRepository.existsById(1L)).thenReturn(true);
       userService.updateUser(user);
@@ -79,8 +81,8 @@ class UserServiceTest {
 
    @Test
    void updateUser_failure() {
-      User user = new User(1L, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
-              "+380999999999", "Ukraine", "2003.03.14", "true", null);
+      User user = new User(1L, "roman", "password", Role.USER, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
+              "+380999999999", "Ukraine", "2003.03.14", Status.ACTIVE,null);
 
       Mockito.when(userRepository.existsById(1L)).thenReturn(false);
 
@@ -89,15 +91,15 @@ class UserServiceTest {
 
    @Test
    void deactivateUser_success() {
-      User user = new User(1L, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
-              "+380999999999", "Ukraine", "2003.03.14", "true", null);
+      User user = new User(1L, "roman", "password", Role.USER, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
+              "+380999999999", "Ukraine", "2003.03.14", Status.ACTIVE,null);
 
       Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user));
       Mockito.when(userRepository.existsById(1L)).thenReturn(true);
       userService.deactivateUser(1L);
 
-      Mockito.verify(userRepository).save(new User(1L, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
-              "+380999999999", "Ukraine", "2003.03.14", "false", null));
+      Mockito.verify(userRepository).save(new User(1L, "roman", "password", Role.USER, "Roman", "Dovzhenko", "romandovzhenko@gmail.com",
+              "+380999999999", "Ukraine", "2003.03.14", Status.DISABLED,null));
    }
 
    @Test
