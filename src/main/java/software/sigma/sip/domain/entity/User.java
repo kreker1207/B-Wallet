@@ -10,6 +10,7 @@ import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,32 +32,34 @@ import java.util.List;
 @EqualsAndHashCode
 @Table(name = "user")
 public class User {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "username")
-    private String userName;
-    @Column(name = "password")
-    private String password;
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "roles")
-    private Role roles;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "surname")
-    private String surname;
-    @Column(name = "email")
-    private String email;
-    @Column(name = "phone")
-    private String phone;
-    @Column(name = "country")
-    private String country;
-    @Column(name = "birthDate")
-    private String birthDate;
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "status")
-    private Status status;
+   @Id
+   @Column(name = "id")
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
+   @Column(name = "username")
+   private String username;
+   @Column(name = "password")
+   private String password;
+   @Enumerated(value = EnumType.STRING)
+   @Column(name = "roles")
+   private Role roles;
+   @Column(name = "name")
+   private String name;
+   @Column(name = "surname")
+   private String surname;
+   @Column(name = "email")
+   private String email;
+   @Column(name = "phone")
+   private String phone;
+   @Column(name = "country")
+   private String country;
+   @Column(name = "birthDate")
+   private String birthDate;
+   @Enumerated(value = EnumType.STRING)
+   @Column(name = "status")
+   private Status status;
+   @ElementCollection(targetClass = String.class)
+   private List<String> favCurrencies;
    @OneToMany(cascade = CascadeType.ALL)
    @JoinColumn(name = "owner_id")
    private List<Wallet> walletList;

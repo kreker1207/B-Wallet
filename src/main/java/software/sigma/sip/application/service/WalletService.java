@@ -8,6 +8,7 @@ import software.sigma.sip.domain.repository.WalletRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,6 +31,9 @@ public class WalletService {
     }
 
     public void addWallet(Wallet wallet) {
+        if (wallet.getCreatedAt() == null) {
+            wallet.setCreatedAt(LocalDate.now().toString());
+        }
         walletRepository.save(wallet);
     }
 
@@ -58,6 +62,7 @@ public class WalletService {
                 .currency(Objects.isNull(newWallet.getCurrency()) ? oldWallet.getCurrency() : newWallet.getCurrency())
                 .amount(Objects.isNull(newWallet.getAmount()) ? oldWallet.getAmount() : newWallet.getAmount())
                 .createdAt(Objects.isNull(newWallet.getCreatedAt()) ? oldWallet.getCreatedAt() : newWallet.getCreatedAt())
+                .convertedCurrency(Objects.isNull(newWallet.getConvertedCurrency()) ? oldWallet.getConvertedCurrency() : newWallet.getConvertedCurrency())
                 .build();
 
     }

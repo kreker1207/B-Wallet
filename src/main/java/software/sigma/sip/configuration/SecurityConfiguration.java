@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,10 +33,11 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
-                        .antMatchers(HttpMethod.GET, USERS,WALLETS).hasAuthority(Permission.READ.getPermission())
-                        .antMatchers(HttpMethod.POST, USERS,WALLETS).hasAuthority(Permission.WRITE.getPermission())
-                        .antMatchers(HttpMethod.PUT, USERS,WALLETS).hasAuthority(Permission.WRITE.getPermission())
+                        .antMatchers(HttpMethod.GET, USERS, WALLETS).hasAuthority(Permission.READ.getPermission())
+                        .antMatchers(HttpMethod.POST, USERS, WALLETS).hasAuthority(Permission.WRITE.getPermission())
+                        .antMatchers(HttpMethod.PUT, USERS, WALLETS).hasAuthority(Permission.WRITE.getPermission())
                         .antMatchers(HttpMethod.DELETE, USERS).hasAuthority(Permission.READ.getPermission())
                         .antMatchers(HttpMethod.DELETE, WALLETS).hasAuthority(Permission.WRITE.getPermission())
                         .anyRequest()

@@ -21,12 +21,14 @@ public class CurrencyService {
    public Map<String, String> getValue(String source, List<String> target) {
       CurrencyDto currencyDto = client.getCourse(source, String.join(" ", target), accessToken);
       Map<String, String> map = new HashMap<>();
-      for (Map<String, String> currency : currencyDto.getCurrency()) {
-         if (currency.get("error") != null) {
-            throw new CurrencyNotFoundException(currency.get("error"));
-         } else {
-            map.put(currency.get("currency"), currency.get("value"));
-         }
+      if (currencyDto.getCurrency() != null) {
+         currencyDto.getCurrency().forEach(currency -> {
+            if (currency.get("error") != null) {
+               throw new CurrencyNotFoundException(currency.get("error"));
+            } else {
+               map.put(currency.get("currency"), currency.get("value"));
+            }
+         });
       }
       return map;
    }

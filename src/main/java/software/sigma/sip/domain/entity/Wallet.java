@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -38,5 +40,7 @@ public class Wallet {
     @Column(name = "amount")
     private String amount;
     @Column(name = "created_at")
-    String createdAt;
+    private String createdAt;
+    @Transient
+    private Map<String, String> convertedCurrency;
 }
