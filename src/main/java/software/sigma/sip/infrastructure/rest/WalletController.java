@@ -2,7 +2,6 @@ package software.sigma.sip.infrastructure.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +19,11 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_READ)")
 @RequestMapping("/wallets")
 public class WalletController {
     private final WalletService walletService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_WRITE)")
     @ResponseStatus(HttpStatus.CREATED)
     public void addWallet(@RequestBody WalletDto walletDto) {
         walletService.addWallet(walletDto.toWallet());
@@ -45,14 +42,12 @@ public class WalletController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_WRITE)")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteWallet(@PathVariable Long id) {
         walletService.deleteWallet(id);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority(T(software.sigma.sip.domain.entity.Permission).DEVELOPER_WRITE)")
     @ResponseStatus(HttpStatus.OK)
     public WalletDto updateWallet(@RequestBody WalletDto walletDto, @PathVariable Long id) {
         return WalletDto.toWalletDto(walletService.updateWallet(walletDto.toWallet(), id));

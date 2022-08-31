@@ -1,8 +1,8 @@
 package software.sigma.sip.domain.entity;
 
 public enum Permission {
-    DEVELOPER_READ("developers.read"),
-    DEVELOPER_WRITE("developers.write");
+    READ("read"),
+    WRITE("write");
     private final String permission;
 
     Permission(String permission) {
