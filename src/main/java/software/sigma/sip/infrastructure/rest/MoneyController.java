@@ -18,16 +18,16 @@ import javax.servlet.http.HttpServletRequest;
 public class MoneyController {
     private final MoneyService moneyService;
 
-    @PutMapping("/{id}/{value}")
+    @PutMapping("/{currencyId}/{value}")
     @ResponseStatus(HttpStatus.OK)
-    public WalletDto adjunctionMoney(@PathVariable Long id, @PathVariable String value) {
-        return WalletDto.toWalletDto(moneyService.adjunctionMoney(id, value));
+    public WalletDto adjunctionMoney(@PathVariable Long currencyId, @PathVariable String value) {
+        return WalletDto.toWalletDto(moneyService.adjunctionMoney(currencyId, value));
     }
 
-    @PutMapping("/{src}/{tg}/{value}")
+    @PutMapping("/{sourceCurrency}/{targetCurrency}/{value}")
     @ResponseStatus(HttpStatus.OK)
-    public void transferMoney(@PathVariable Long src, @PathVariable Long tg, @PathVariable String value, HttpServletRequest request){
+    public void transferMoney(@PathVariable Long sourceCurrency, @PathVariable Long targetCurrency, @PathVariable String value, HttpServletRequest request){
         String username = request.getUserPrincipal().getName();
-        moneyService.transferMoney(src,tg,value,username);
+        moneyService.transferMoney(sourceCurrency, targetCurrency,value,username);
     }
 }

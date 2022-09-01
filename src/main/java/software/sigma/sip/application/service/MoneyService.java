@@ -3,6 +3,7 @@ package software.sigma.sip.application.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import software.sigma.sip.client.exception.UserForbiddenException;
 import software.sigma.sip.domain.entity.User;
 import software.sigma.sip.domain.entity.Wallet;
@@ -25,27 +26,33 @@ public class MoneyService {
 
     private final WalletRepository walletRepository;
     private final UserRepository userRepository;
-
     private final CurrencyService currencyService;
 
-    public Wallet adjunctionMoney(Long id, String value) {
-        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ERROR_TEMPLATE_WALLET));
-        wallet.setAmount(new BigDecimal(wallet.getAmount()).add(new BigDecimal(value)).toString());
-        return walletRepository.save(wallet);
+    @Transactional
+    public Wallet adjunctionMoney (Long id, String value) {
+        Wallet wallet = walletRepository.findById (id).orElseThrow (() -> new EntityNotFoundException (ERROR_TEMPLATE_WALLET));
+        wallet.setAmount (new BigDecimal (wallet.getAmount ()).add (new BigDecimal (value)).toString ());
+        return walletRepository.save (wallet);
     }
-    public void transferMoney(Long src, Long tg, String value, String username){
-        User user = userRepository.findByUsername(username).orElseThrow(()->
-                new EntityNotFoundException(ERROR_TEMPLATE_USER));
-        Wallet srcWallet = walletRepository.findById(src).orElseThrow(()->
-                new EntityNotFoundException(ERROR_TEMPLATE_WALLET));
-        if(!user.getId().equals(srcWallet.getOwnerId())){throw new UserForbiddenException(ERROR_TEMPLATE);}
-        Wallet tgWallet = walletRepository.findById(tg).orElseThrow(()->
-                new EntityNotFoundException(ERROR_TEMPLATE_WALLET));
-        srcWallet.setAmount(new BigDecimal(srcWallet.getAmount()).subtract(new BigDecimal(value)).toString());
-        Map<String,String> map = currencyService.getValue(srcWallet.getCurrency(), List.of(tgWallet.getCurrency()));
-        tgWallet.setAmount(new BigDecimal(tgWallet.getAmount()).add(new BigDecimal(value)).multiply(new BigDecimal(map.get(tgWallet.getCurrency()))).toString());
-        walletRepository.save(srcWallet);
-        walletRepository.save(tgWallet);
+
+    @Transactional
+    public void transferMoney (Long sourceCurrency, Long targetCurrency, String value, String username) {
+        User user = userRepository.findByUsername (username).orElseThrow (() ->
+                new EntityNotFoundException (ERROR_TEMPLATE_USER));
+        Wallet sourceWallet = walletRepository.findById (sourceCurrency).orElseThrow (() ->
+                new EntityNotFoundException (ERROR_TEMPLATE_WALLET));
+        if (!user.getId ().equals (sourceWallet.getOwnerId ())) {
+            throw new UserForbiddenException (ERROR_TEMPLATE);
+        }
+        Wallet targetWallet = walletRepository.findById (targetCurrency).orElseThrow (() -> new EntityNotFoundException (ERROR_TEMPLATE_WALLET));
+        sourceWallet.setAmount (new BigDecimal (sourceWallet.getAmount ()).subtract (new BigDecimal (value)).toString ()
+        );
+        Map<String, String> map = currencyService.getValue (sourceWallet.getCurrency (), List.of (targetWallet.getCurrency ()));
+        targetWallet.setAmount (
+                new BigDecimal (targetWallet.getAmount ()).add (new BigDecimal (value)).multiply (new BigDecimal (map.get (targetWallet.getCurrency ()))).toString ()
+        );
+        walletRepository.save (sourceWallet);
+        walletRepository.save (targetWallet);
     }
 
 }
