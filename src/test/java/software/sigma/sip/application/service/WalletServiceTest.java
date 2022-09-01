@@ -31,6 +31,17 @@ public class WalletServiceTest {
     private ArgumentCaptor<Wallet> walletArgumentCaptor;
 
     @Test
+    void getWallets() {
+        List<Wallet> walletList = Arrays.asList(new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08", new HashMap<>()),
+                new Wallet(2L, 1L, "Roman", "UAH", "100.00", "10.04", new HashMap<>()));
+
+        Mockito.when(walletRepository.findAll()).thenReturn(walletList);
+        List<Wallet> expectedList = walletService.getWallets();
+
+        org.assertj.core.api.Assertions.assertThat(expectedList).isEqualTo(walletList);
+    }
+
+    @Test
     void addWallet_success() {
         Wallet sourceWallet = new Wallet(1L, 1L, "Ivan", "USD", "200.00", "17.08", new HashMap<>());
 
