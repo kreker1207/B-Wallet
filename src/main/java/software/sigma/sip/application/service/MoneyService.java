@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import software.sigma.sip.client.exception.UserForbiddenException;
+import software.sigma.sip.exception.UserForbiddenException;
 import software.sigma.sip.domain.entity.User;
 import software.sigma.sip.domain.entity.Wallet;
 import software.sigma.sip.domain.repository.UserRepository;

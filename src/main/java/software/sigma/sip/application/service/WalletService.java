@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import software.sigma.sip.domain.entity.Wallet;
 import software.sigma.sip.domain.repository.WalletRepository;
+import software.sigma.sip.exception.EntityNotFoundByIdException;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class WalletService {
     public Wallet getWallet(Long id) {
         log.info("Get Wallet: '{}'", id);
         return walletRepository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException(ERROR_TEMPLATE);
+            throw new EntityNotFoundByIdException(ERROR_TEMPLATE);
         });
     }
 
@@ -42,7 +43,7 @@ public class WalletService {
 
     public Wallet updateWallet(Wallet wallet, Long id) {
         if (!walletRepository.existsById(id)) {
-            throw new EntityNotFoundException(ERROR_TEMPLATE);
+            throw new EntityNotFoundByIdException(ERROR_TEMPLATE);
         }
         Wallet oldWallet = getWallet(id);
         return walletRepository.save(applyChanges(wallet, oldWallet, id));
@@ -51,7 +52,7 @@ public class WalletService {
 
     public void deleteWallet(Long id) {
         if (!walletRepository.existsById(id)) {
-            throw new EntityNotFoundException(ERROR_TEMPLATE);
+            throw new EntityNotFoundByIdException(ERROR_TEMPLATE);
         }
         walletRepository.deleteById(id);
 
