@@ -3,7 +3,7 @@ package software.sigma.sip.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import software.sigma.sip.client.exception.CurrencyNotFoundException;
+import software.sigma.sip.exception.CurrencyNotFoundException;
 import software.sigma.sip.domain.client.CurrencyDataFeedClient;
 import software.sigma.sip.infrastructure.dto.CurrencyDto;
 
