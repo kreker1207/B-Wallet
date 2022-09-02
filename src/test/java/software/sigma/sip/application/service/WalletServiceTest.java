@@ -27,6 +27,8 @@ public class WalletServiceTest {
     private WalletRepository walletRepository;
     @InjectMocks
     private WalletService walletService;
+    @InjectMocks
+    private MoneyService moneyService;
     @Captor
     private ArgumentCaptor<Wallet> walletArgumentCaptor;
 
@@ -141,7 +143,7 @@ public class WalletServiceTest {
 
         Mockito.when(walletRepository.findById(Mockito.eq(1L))).thenReturn(Optional.of(sourceWallet));
 
-        walletService.adjunctionMoney(1L, "150");
+        moneyService.adjunctionMoney(1L, "150");
 
         Mockito.verify(walletRepository).save(new Wallet(1L, 2L, "Ivan", "USD", "350.00", "17.08", new HashMap<>()));
     }
@@ -153,7 +155,7 @@ public class WalletServiceTest {
         String expectedMessage = "Wallet was not found by id";
 
         String actualMessage = Assertions.assertThrows(EntityNotFoundException.class, () ->
-                walletService.adjunctionMoney(1L, "150")).getMessage();
+                moneyService.adjunctionMoney(1L, "150")).getMessage();
 
         assertThat(actualMessage).isEqualTo(expectedMessage);
     }

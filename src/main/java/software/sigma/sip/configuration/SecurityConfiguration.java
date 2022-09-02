@@ -22,6 +22,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration {
     public static final String USERS = "/users**";
     public static final String WALLETS = "/wallets**";
+    public static final String MONEY = "/wallets/money**";
+    public static final String CURRENCY = "/currency**";
 
     private final UserDetailsService userDetailsService;
 
@@ -36,8 +38,10 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
                         .antMatchers(HttpMethod.GET, USERS, WALLETS).hasAuthority(Permission.READ.getPermission())
-                        .antMatchers(HttpMethod.POST, USERS, WALLETS).hasAuthority(Permission.WRITE.getPermission())
-                        .antMatchers(HttpMethod.PUT, USERS, WALLETS).hasAuthority(Permission.WRITE.getPermission())
+                        .antMatchers(HttpMethod.GET, CURRENCY).hasAuthority(Permission.WRITE.getPermission())
+                        .antMatchers(HttpMethod.POST, WALLETS).hasAuthority(Permission.WRITE.getPermission())
+                        .antMatchers(HttpMethod.POST, USERS).permitAll()
+                        .antMatchers(HttpMethod.PUT, USERS, WALLETS,MONEY).hasAuthority(Permission.WRITE.getPermission())
                         .antMatchers(HttpMethod.DELETE, USERS).hasAuthority(Permission.READ.getPermission())
                         .antMatchers(HttpMethod.DELETE, WALLETS).hasAuthority(Permission.WRITE.getPermission())
                         .anyRequest()
