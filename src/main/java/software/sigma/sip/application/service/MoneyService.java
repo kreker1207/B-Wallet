@@ -29,30 +29,29 @@ public class MoneyService {
     private final CurrencyService currencyService;
 
     @Transactional
-    public Wallet adjunctionMoney (Long id, String value) {
-        Wallet wallet = walletRepository.findById (id).orElseThrow (() -> new EntityNotFoundException (ERROR_TEMPLATE_WALLET));
-        wallet.setAmount (new BigDecimal (wallet.getAmount ()).add (new BigDecimal (value)).toString ());
-        return walletRepository.save (wallet);
+    public Wallet adjunctionMoney(Long id, String value) {
+        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ERROR_TEMPLATE_WALLET));
+        wallet.setAmount(new BigDecimal(wallet.getAmount()).add(new BigDecimal(value)).toString());
+        return walletRepository.save(wallet);
     }
 
     @Transactional
-    public void transferMoney (Long sourceCurrency, Long targetCurrency, String value, String username) {
-        User user = userRepository.findByUsername (username).orElseThrow (() ->
-                new EntityNotFoundException (ERROR_TEMPLATE_USER));
-        Wallet sourceWallet = walletRepository.findById (sourceCurrency).orElseThrow (() ->
-                new EntityNotFoundException (ERROR_TEMPLATE_WALLET));
-        if (!user.getId ().equals (sourceWallet.getOwnerId ())) {
-            throw new UserForbiddenException (ERROR_TEMPLATE);
+    public void transferMoney(Long sourceCurrency, Long targetCurrency, String value, String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() ->
+                new EntityNotFoundException(ERROR_TEMPLATE_USER));
+        Wallet sourceWallet = walletRepository.findById(sourceCurrency).orElseThrow (() ->
+                new EntityNotFoundException(ERROR_TEMPLATE_WALLET));
+        if(!user.getId().equals(sourceWallet.getOwnerId())) {
+            throw new UserForbiddenException(ERROR_TEMPLATE);
         }
-        Wallet targetWallet = walletRepository.findById (targetCurrency).orElseThrow (() -> new EntityNotFoundException (ERROR_TEMPLATE_WALLET));
-        sourceWallet.setAmount (new BigDecimal (sourceWallet.getAmount ()).subtract (new BigDecimal (value)).toString ()
-        );
-        Map<String, String> map = currencyService.getValue (sourceWallet.getCurrency (), List.of (targetWallet.getCurrency ()));
+        Wallet targetWallet = walletRepository.findById(targetCurrency).orElseThrow(() -> new EntityNotFoundException(ERROR_TEMPLATE_WALLET));
+        sourceWallet.setAmount(new BigDecimal(sourceWallet.getAmount()).subtract(new BigDecimal(value)).toString());
+        Map<String, String> map = currencyService.getValue(sourceWallet.getCurrency(), List.of(targetWallet.getCurrency()));
         targetWallet.setAmount (
-                new BigDecimal (targetWallet.getAmount ()).add (new BigDecimal (value)).multiply (new BigDecimal (map.get (targetWallet.getCurrency ()))).toString ()
+                new BigDecimal(targetWallet.getAmount()).add (new BigDecimal(value)).multiply(new BigDecimal(map.get(targetWallet.getCurrency()))).toString ()
         );
-        walletRepository.save (sourceWallet);
-        walletRepository.save (targetWallet);
+        walletRepository.save(sourceWallet);
+        walletRepository.save(targetWallet);
     }
 
 }
