@@ -13,13 +13,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition
 public class OpenAPIConfig {
-   private static final String SECURITY_SCHEME_NAME = "basicAuth";
-   private static final String SCHEME = "basic";
-   private static final Schema coefficientMapSchema = new Schema<>().addProperty("sourceCurrency", new Schema<>()
+   private final String SECURITY_SCHEME_NAME = "basicAuth";
+   private final String SCHEME = "basic";
+   private final Schema coefficientMapSchema = new Schema<>().addProperty("sourceCurrency", new Schema<>()
            .addProperty("targetCurrency1", new StringSchema()._default("coefficient"))
            .addProperty("targetCurrency2", new StringSchema()._default("coefficient"))
            .addProperty("targetCurrency3", new StringSchema()._default("coefficient")));
-   private static final Schema valueMapSchema = new Schema<>().addProperty("sourceCurrency", new Schema<>()
+   private final Schema valueMapSchema = new Schema<>().addProperty("sourceCurrency", new Schema<>()
            .addProperty("targetCurrency1", new StringSchema()._default("value"))
            .addProperty("targetCurrency2", new StringSchema()._default("value"))
            .addProperty("targetCurrency3", new StringSchema()._default("value")));
