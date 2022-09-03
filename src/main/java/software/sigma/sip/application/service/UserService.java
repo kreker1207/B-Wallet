@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import software.sigma.sip.domain.entity.Status;
 import software.sigma.sip.domain.entity.User;
 import software.sigma.sip.domain.repository.UserRepository;
+import software.sigma.sip.exception.EntityNotFoundByIdException;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
@@ -26,7 +27,7 @@ public class UserService {
 
     public User getUser(Long id) {
         return addValueForFavCurrencies(userRepository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException(ERROR_TEMPLATE);
+           throw new EntityNotFoundByIdException(ERROR_TEMPLATE);
         }));
     }
 
@@ -46,7 +47,7 @@ public class UserService {
 
     public void updateUser(User user) {
         if (!userRepository.existsById(user.getId())) {
-            throw new EntityNotFoundException(ERROR_TEMPLATE);
+           throw new EntityNotFoundByIdException(ERROR_TEMPLATE);
         }
         userRepository.save(user);
     }
@@ -54,7 +55,7 @@ public class UserService {
     public void deactivateUser(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isEmpty()) {
-            throw new EntityNotFoundException(ERROR_TEMPLATE);
+           throw new EntityNotFoundByIdException(ERROR_TEMPLATE);
         }
         User user = userOptional.get();
         user.setStatus(Status.DISABLED);

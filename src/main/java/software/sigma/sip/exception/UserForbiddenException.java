@@ -1,4 +1,4 @@
-package software.sigma.sip.client.exception;
+package software.sigma.sip.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
