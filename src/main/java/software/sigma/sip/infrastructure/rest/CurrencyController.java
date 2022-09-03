@@ -21,7 +21,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/currency")
-@Tag(name = "Currency", description = "Receiving courses from an external API")
+@Tag(name = "Currency", description = "Receiving exchange rates from an external API")
 public class CurrencyController {
    private final CurrencyService service;
 

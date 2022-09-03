@@ -52,7 +52,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.DELETE, USERS).hasAuthority(Permission.READ.getPermission())
                         .antMatchers(HttpMethod.DELETE, WALLETS).hasAuthority(Permission.WRITE.getPermission())
                         .anyRequest()
-                        .authenticated().and()
+                        .authenticated()
                 )
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
