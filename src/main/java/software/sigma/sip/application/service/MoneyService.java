@@ -48,7 +48,7 @@ public class MoneyService {
         sourceWallet.setAmount(new BigDecimal(sourceWallet.getAmount()).subtract(new BigDecimal(value)).toString());
         Map<String, String> map = currencyService.getValue(sourceWallet.getCurrency(), List.of(targetWallet.getCurrency()));
         targetWallet.setAmount(
-                new BigDecimal(targetWallet.getAmount()).add(new BigDecimal(value)).multiply(new BigDecimal(map.get(targetWallet.getCurrency()))).toString ()
+                new BigDecimal(targetWallet.getAmount()).add(new BigDecimal(value).multiply(new BigDecimal(map.get(targetWallet.getCurrency())))).toString()
         );
         walletRepository.save(sourceWallet);
         walletRepository.save(targetWallet);
