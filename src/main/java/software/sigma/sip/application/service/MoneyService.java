@@ -36,15 +36,15 @@ public class MoneyService {
     }
 
     @Transactional
-    public void transferMoney(Long sourceCurrency, Long targetCurrency, String value, String username) {
+    public void transferMoney(Long sourceWalletId, Long targetWalletId, String value, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() ->
                 new EntityNotFoundException(ERROR_TEMPLATE_USER));
-        Wallet sourceWallet = walletRepository.findById(sourceCurrency).orElseThrow (() ->
+        Wallet sourceWallet = walletRepository.findById(sourceWalletId).orElseThrow (() ->
                 new EntityNotFoundException(ERROR_TEMPLATE_WALLET));
         if(!user.getId().equals(sourceWallet.getOwnerId())) {
             throw new UserForbiddenException(ERROR_TEMPLATE);
         }
-        Wallet targetWallet = walletRepository.findById(targetCurrency).orElseThrow(() -> new EntityNotFoundException(ERROR_TEMPLATE_WALLET));
+        Wallet targetWallet = walletRepository.findById(targetWalletId).orElseThrow(() -> new EntityNotFoundException(ERROR_TEMPLATE_WALLET));
         sourceWallet.setAmount(new BigDecimal(sourceWallet.getAmount()).subtract(new BigDecimal(value)).toString());
         Map<String, String> map = currencyService.getValue(sourceWallet.getCurrency(), List.of(targetWallet.getCurrency()));
         targetWallet.setAmount(

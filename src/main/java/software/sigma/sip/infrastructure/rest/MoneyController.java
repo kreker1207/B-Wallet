@@ -35,7 +35,7 @@ public class MoneyController {
         return WalletDto.toWalletDto(moneyService.adjunctionMoney(currencyId, value));
     }
 
-    @PutMapping("/{sourceCurrency}/{targetCurrency}/{value}")
+    @PutMapping("/{sourceWalletId}/{targetWalletId}/{value}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Transfer Money", responses = {
             @ApiResponse(responseCode = "201", description = "Money were transferred from one wallet to another"),
@@ -43,8 +43,8 @@ public class MoneyController {
             @ApiResponse(responseCode = "401", description = "Access denied for unauthorized user", content = @Content),
             @ApiResponse(responseCode = "403", description = "Not enough permissions", content = @Content)
     })
-    public void transferMoney(@PathVariable Long sourceCurrency, @PathVariable Long targetCurrency, @PathVariable String value, HttpServletRequest request){
+    public void transferMoney(@PathVariable Long sourceWalletId, @PathVariable Long targetWalletId, @PathVariable String value, HttpServletRequest request){
         String username = request.getUserPrincipal().getName();
-        moneyService.transferMoney(sourceCurrency, targetCurrency,value,username);
+        moneyService.transferMoney(sourceWalletId, targetWalletId,value,username);
     }
 }
