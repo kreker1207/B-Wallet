@@ -35,9 +35,8 @@ public class UserService {
       user.getWalletList().forEach(wallet ->
               wallet.setConvertedCurrency(currencyService.getValue(wallet.getCurrency(), user.getFavCurrencies())
                       .entrySet().stream()
-                      .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.setValue(
-                              new BigDecimal(entry.getValue()).multiply(new BigDecimal(wallet.getAmount())).toString())
-                      ))));
+                      .collect(Collectors.toMap(Map.Entry::getKey, entry ->
+                              new BigDecimal(entry.getValue()).multiply(new BigDecimal(wallet.getAmount())).toString()))));
       return user;
    }
 
